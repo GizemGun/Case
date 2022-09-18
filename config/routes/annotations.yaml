@@ -1,0 +1,11 @@
+controllers_rest_api:
+  resource: ../../src/Controller/Api/Rest/
+  type: annotation
+  prefix: /api/rest
+  name_prefix: "api_rest_"
+  trailing_slash_on_root: false
+
+kernel:
+  resource: ../../src/Kernel.php
+  type: annotation
+  trailing_slash_on_root: false

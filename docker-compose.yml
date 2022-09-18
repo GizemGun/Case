@@ -1,0 +1,74 @@
+version: "3.4"
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/local/nginx/Dockerfile
+    image: case-nginx:latest
+    container_name: case-nginx
+    volumes:
+      - ./public:/var/www/app/public:rw
+    networks:
+      - nt-case
+    restart: always
+    stdin_open: true
+    tty: true
+    ports:
+      - "7500:80"
+    depends_on:
+      - symfony
+
+  symfony:
+    build:
+      context: .
+      dockerfile: docker/local/api/Dockerfile
+    image: case-api:latest
+    container_name: case-api
+    networks:
+      - nt-case
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '3'
+          memory: 3500M
+        reservations:
+          cpus: '2.5'
+          memory: 3000M
+    volumes:
+      - ./config:/var/www/app/config:rw
+      - ./public:/var/www/app/public:rw
+      - ./src:/var/www/app/src:rw
+    stdin_open: true
+    tty: true
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: mariadb:10.4.17
+    container_name: case-db
+    networks:
+      - nt-case
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: demodb
+      MYSQL_USER: demo
+      MYSQL_PASSWORD: abc123
+    ports:
+      - "7501:3306"
+
+  redis:
+    image: redis:6.0.10
+    container_name: case-redis
+    networks:
+      - nt-case
+    restart: always
+    ports:
+      - "7502:6379"
+
+networks:
+  nt-case:
+    driver: bridge
