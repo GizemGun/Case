@@ -20,4 +20,23 @@ class ProductRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Product::class);
     }
+
+    /**
+     * @return array
+     */
+    public function getAll(): array
+    {
+        $result = ["isSuccess" => true, "message" => "No action", "data" => null];
+        try {
+            $orders = $this->createQueryBuilder("p");
+            $orders
+                ->select("p.id, p.name, p.price");
+            $orders = $orders->getQuery()->getArrayResult();
+            $result["data"] = $orders;
+        } catch (\Exception $e) {
+            $result["isSuccess"] = false;
+            $result["message"] = $e->getMessage();
+        }
+        return $result;
+    }
 }

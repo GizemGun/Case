@@ -38,6 +38,7 @@ security:
 
   access_control:
    - { path: ^/api/login_check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+   - { path: ^/api/rest/get-products, roles: IS_AUTHENTICATED_ANONYMOUSLY }
    - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:

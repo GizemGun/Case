@@ -38,6 +38,9 @@ Not: İşlemler arasında loginden alacağınız token'ı Authorization kısmın
   "username": "abc@case.com",
   "password": "0123456"
   }
+
+- http://localhost:7500/api/rest/get-products linkini kullanarak ürünlere erişebilirsiniz. Bunun için her hangi bir token almanıza gerek yoktur.
+
 - http://localhost:7500/api/rest/create-order linkini kullanarak sipariş oluşturabilirsiniz. Body kısmında;
   {
   "products": [
